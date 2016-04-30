@@ -1,0 +1,12 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "rustybear/django-beanstalk:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "8002"
+    }
+  ]
+}
