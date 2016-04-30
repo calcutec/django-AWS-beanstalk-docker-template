@@ -9,9 +9,9 @@ Assumes you have virtualenv and virtualenvwrapper installed.
 Starting your project
 ---------------------
 
-    $ mkdir /home/user/AWS/mysite.proj
+    $ mkdir /home/kevin/AWS/mysite.proj
 
-    $ mkvirtualenv -a /home/user/AWS/mysite.proj mysite
+    $ mkvirtualenv -a /home/kevin/AWS/mysite.proj mysite
 
     $ pip install Django
 
@@ -21,8 +21,20 @@ Starting your project
 
     $ export DJANGO_SETTINGS_MODULE='mysite.settings'
 
-    $ export PYTHONPATH=$PYTHONPATH:/home/user/AWS/mysite.proj/mysite
+    $ export PYTHONPATH=$PYTHONPATH:/home/kevin/AWS/mysite.proj/mysite
 
     $ django-admin check
+
+    $ pip install awsebcli
+
+    $ cd mysite
+
+    $ git init
+
+    $ git add . && git commit -a
+
+    $ eb init
+
+    $ eb create
 
 Originally from a tutorial found at http://glynjackson.org/weblog/django-aws-elastic-beanstalk-docker-2/
