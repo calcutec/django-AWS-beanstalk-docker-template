@@ -11,21 +11,73 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import getpass
+import json
+from django.core.exceptions import ImproperlyConfigured
+
+INTERNAL_IPS = ['127.0.0.1',]
+
+DEVELOPMENT_MODE = ((getpass.getuser() == 'kevin') or \
+                            (getpass.getuser() == 'sakura') or \
+                            (getpass.getuser() == 'laptop'))
+
+if DEVELOPMENT_MODE:
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+    DEBUG_TOOLBAR_PATCH_SETTINGS = False
+    PREPEND_WWW = False
+    EMAIL_HOST = 'localhost'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+    DEFAULT_FROM_EMAIL = 'kevin@rustybear.com'
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    EMAIL_USE_TLS = False 
+    EMAIL_PORT = 1025
+    ALLOWED_HOSTS = ['*']
+else:
+    # If DEBUG = False, ALLOWED_HOSTS must be set.
+    DEBUG = False
+    ALLOWED_HOSTS = ['.rustybear.com',
+                     'xxxxx-test-env.us-east-1.elasticbeanstalk.com',
+                     'xxxxx-prod-env.us-east-1.elasticbeanstalk.com',
+                     '127.0.0.1',
+                     'localhost',
+                     '52.186.44.146'
+                    ]
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SECRETS_FILE = os.path.join(BASE_DIR, "..", "secrets.json")
+
+with open(SECRETS_FILE) as f:
+    secrets = json.loads(f.read())
+
+def get_secret(setting,secrets=secrets):
+    """ Get the secret variables or return explicit exception."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+AWS_STORAGE_BUCKET_NAME = get_secret("AWS_STORAGE_BUCKET_NAME")
+AWS_ACCESS_KEY_ID = get_secret("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = get_secret("AWS_SECRET_ACCESS_KEY")
+SECRET_KEY = get_secret("DJANGO_SECRET_KEY")
+AWS_CLOUDFRONT_DOMAIN = 'd35mv7jq3bmmwx.cloudfront.net'
+AWS_PRELOAD_METADATA = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+tb*r29ojm&cd4t!q*=&62q-n$9@lid!ct5xf-vq=n8o#q(s-l'
+#SECRET_KEY = '+tb*r29ojm&cd4t!q*=&62q-n$9@lid!ct5xf-vq=n8o#q(s-l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,6 +89,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -50,12 +103,21 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+if DEVELOPMENT_MODE:
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+    MIDDLEWARE_CLASSES += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ]
+
+
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

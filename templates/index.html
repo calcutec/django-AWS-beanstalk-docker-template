@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block content %}
+<table align="center" width="95%">
+<tr>
+<td>
+    <h2 align="center">General Contractors</h2>
+<br />
+</td>
+</tr>
+<tr>
+    <td>
+        <table align="center" width="50%">
+            <tr>
+                <td>
+    <div class="redDot">
+        <ul>
+            <li>Excavating</li>
+            <li>Demolition</li>
+            <li>Utility Work</li>
+            <li>Fine Home Building</li>
+        </ul>
+    </div>
+</td>
+
+<td>
+    <div class="redDot">
+        <ul>
+            <li>Renovation</li>
+            <li>Drainage</li>
+            <li>Septic Systems</li>
+            <li>Site Work</li>
+        </ul>
+    </div>
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+
+<tr>
+    <td>
+        {% load static from staticfiles %}
+        <img src="{% static "images/backhoe_house.jpg" %}" width="500" height="236" alt="Natale Construction" />
+        <br />
+        9 Peck Avenue<br />
+        Greenwich, Connecticut 06830<br />
+        Tel:&nbsp;&nbsp; 203.531.9249
+        <br />
+        <br />
+        <a href="/contact/"><img src="{% static "images/but_contactus.gif" %}" /></a>
+
+</td>
+</tr>
+</table>
+
+{% endblock %}
+
