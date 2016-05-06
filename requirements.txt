@@ -22,3 +22,5 @@ sqlparse==0.1.19
 texttable==0.8.4
 wcwidth==0.1.6
 websocket-client==0.37.0
+gunicorn==19.4.3
+gevent==1.1a2
