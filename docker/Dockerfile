@@ -54,9 +54,7 @@ ADD ./docker/supervisor_conf.d/webapp.conf /etc/supervisor/conf.d/webapp.conf
 # Install dependencies and run scripts.
 ##############################################################################
 
-RUN apt-get install -y git
-RUN git archive -o mysite.tar HEAD
-ADD mysite.tar      /var/projects/mysite
+ADD docker/mysite.tar      /var/projects/mysite
 WORKDIR /var/projects/mysite
 RUN pip install -r requirements.txt
 
