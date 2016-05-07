@@ -57,6 +57,7 @@ ADD ./docker/supervisor_conf.d/webapp.conf /etc/supervisor/conf.d/webapp.conf
 ADD docker/mysite.tar      /var/projects/mysite
 WORKDIR /var/projects/mysite
 RUN pip install -r requirements.txt
+RUN rm Dockerfile
 
 ##############################################################################
 # Run start.sh script when the container starts.
