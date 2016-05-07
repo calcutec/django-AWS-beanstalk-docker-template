@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "rustybear/django-beanstalk:latest",
+    "Name": "rustybear/django-aws-beanstalk-docker-template:latest",
     "Update": "true"
   },
   "Ports": [
