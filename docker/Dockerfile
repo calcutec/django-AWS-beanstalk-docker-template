@@ -47,7 +47,8 @@ RUN mkdir -p /var/run/webapp/ && chown -R webapp /var/run/webapp/ && chmod -R u+
 
 RUN apt-get install -y supervisor
 RUN mkdir -p /var/log/supervisor
-ADD ./supervisor_conf.d/webapp.conf /etc/supervisor/conf.d/webapp.conf
+#ADD ./supervisor_conf.d/webapp.conf /etc/supervisor/conf.d/webapp.conf
+ADD ./docker/supervisor_conf.d/webapp.conf /etc/supervisor/conf.d/webapp.conf
 
 ##############################################################################
 # Install dependencies and run scripts.
